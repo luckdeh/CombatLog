@@ -1,0 +1,4 @@
+name: CombatLog
+version: '${project.version}'
+main: me.luckdeh.combatlog.CombatLog
+api-version: '1.20'
