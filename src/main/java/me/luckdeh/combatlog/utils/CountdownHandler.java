@@ -10,21 +10,33 @@ import org.bukkit.entity.Player;
 public class CountdownHandler {
 
     TimerHandler timerHandler = TimerHandler.getInstance();
+    CombatLog plugin = CombatLog.getInstance();
 
-    public void performCountdown(CombatLog plugin, UUID playerUUID, Player player) {
+    public void performCountdown(UUID playerUUID, Player player) {
 
         plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, scheduledTask -> {
 
-            Float combatTime = timerHandler.getCombatTimer(playerUUID);
-            timerHandler.setCombatTimer(playerUUID, combatTime-1f);
-
-            if (combatTime <= 0f) {
+            //If the timer does not exist/is stopped, then end this countdown task.
+            if (timerHandler.getCombatTimer(playerUUID).isNaN() || player == null) {
+                timerHandler.stopCombatTimer(playerUUID);
                 scheduledTask.cancel();
+                return;
             }
 
+            Float combatTime = timerHandler.getCombatTimer(playerUUID);
+            timerHandler.setCombatTimer(playerUUID, combatTime-0.1f);
+
+            //If the timer is less then zero, stop the countdown.
+            if (combatTime < 0f) {
+                timerHandler.stopCombatTimer(playerUUID);
+                scheduledTask.cancel();
+                return;
+            }
+
+            //Send the time to the players.
             player.sendMessage(combatTime.toString());
 
-        }, 0,1, TimeUnit.SECONDS);
+        }, 0,100, TimeUnit.MILLISECONDS);
 
     }
 }

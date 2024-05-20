@@ -16,7 +16,7 @@ public class TimerHandler {
     public void startCombatTimer(Player player, Float taggedTime) {
         timer.put(player.getUniqueId(), taggedTime);
         //Start the timer
-        countdownHandler.performCountdown(CombatLog.getInstance(), player.getUniqueId(), player);
+        countdownHandler.performCountdown(player.getUniqueId(), player);
     }
 
     public Float getCombatTimer(UUID playerUUID) {
