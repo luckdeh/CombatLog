@@ -8,18 +8,19 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class PlayerDamage implements Listener {
 
-    TimerHandler timer = TimerHandler.getInstance();
-
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
 
-        if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) { return; }
+        if (!(e.getEntity() instanceof Player defender) || !(e.getDamager() instanceof Player attacker)) { return; }
 
-        Player attacker = (Player) e.getDamager();
-        Player defender = (Player) e.getEntity();
+        TimerHandler timerHandler = TimerHandler.getInstance();
 
-        timer.startCombatTimer(attacker, 30f);
-        timer.startCombatTimer(defender, 30f);
+        //Code to send message to the player goes here.
+        //attacker.sendMessage
+
+        //Tag both players for 30 seconds (will add configuration later).
+        timerHandler.startCombatTimer(attacker, 30d);
+        timerHandler.startCombatTimer(defender, 30d);
 
     }
 }

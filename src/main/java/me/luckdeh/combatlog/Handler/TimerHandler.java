@@ -1,29 +1,32 @@
 package me.luckdeh.combatlog.Handler;
 
-import me.luckdeh.combatlog.CombatLog;
-import me.luckdeh.combatlog.utils.CountdownHandler;
+import me.luckdeh.combatlog.utils.Countdown;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class TimerHandler {
+    private final HashMap<UUID, Double> timer = new HashMap<>();
 
-    static TimerHandler instance = new TimerHandler();
-    private final HashMap<UUID, Float> timer = new HashMap<>();
-    private final CountdownHandler countdownHandler = new CountdownHandler();
+    public void startCombatTimer(Player player, Double taggedTime) {
 
-    public void startCombatTimer(Player player, Float taggedTime) {
+        //Checks if the countdown timer already exists. If it does (meaning it is not null), then it just tags the players again.
+        if (getCombatTimer(player.getUniqueId()) != null) {
+            setCombatTimer(player.getUniqueId(), taggedTime);
+            return;
+        }
+
         timer.put(player.getUniqueId(), taggedTime);
-        //Start the timer
-        countdownHandler.performCountdown(player.getUniqueId(), player);
+        Countdown countdown = new Countdown();
+        countdown.performCountdown(player.getUniqueId(), player);
     }
 
-    public Float getCombatTimer(UUID playerUUID) {
+    public Double getCombatTimer(UUID playerUUID) {
         return timer.get(playerUUID);
     }
 
-    public void setCombatTimer(UUID playerUUID, Float taggedTime) {
+    public void setCombatTimer(UUID playerUUID, Double taggedTime) {
         timer.replace(playerUUID, taggedTime);
     }
 
@@ -32,7 +35,12 @@ public class TimerHandler {
         timer.remove(playerUUID);
     }
 
+    private static TimerHandler instance;
+
     public static TimerHandler getInstance() {
+        if (instance == null) {
+            instance = new TimerHandler();
+        }
         return instance;
     }
 

@@ -2,17 +2,23 @@ package me.luckdeh.combatlog.utils;
 
 import me.luckdeh.combatlog.CombatLog;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import me.luckdeh.combatlog.Handler.TimerHandler;
 import org.bukkit.entity.Player;
 
-public class CountdownHandler {
+public class Countdown {
 
     TimerHandler timerHandler = TimerHandler.getInstance();
     CombatLog plugin = CombatLog.getInstance();
 
+    DecimalFormat decimalFormat = new DecimalFormat("0.0");
+
     public void performCountdown(UUID playerUUID, Player player) {
+
+        decimalFormat.setRoundingMode(RoundingMode.DOWN);
 
         plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, scheduledTask -> {
 
@@ -23,8 +29,8 @@ public class CountdownHandler {
                 return;
             }
 
-            Float combatTime = timerHandler.getCombatTimer(playerUUID);
-            timerHandler.setCombatTimer(playerUUID, combatTime-0.1f);
+            Double combatTime = timerHandler.getCombatTimer(playerUUID);
+            timerHandler.setCombatTimer(playerUUID, combatTime-0.1d);
 
             //If the timer is less then zero, stop the countdown.
             if (combatTime < 0f) {
@@ -33,10 +39,10 @@ public class CountdownHandler {
                 return;
             }
 
-            //Send the time to the players.
-            player.sendMessage(combatTime.toString());
+            //Send the time message to the players (will change it to the actionbar later).
+            player.sendMessage(decimalFormat.format(combatTime));
 
         }, 0,100, TimeUnit.MILLISECONDS);
-
     }
+
 }
