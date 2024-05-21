@@ -11,19 +11,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.UUID;
 
 public class PlayerDisconnect implements Listener {
-    private final TimerHandler timerHandler;
-
-    public PlayerDisconnect(JavaPlugin plugin) {
-        this.timerHandler = TimerHandler.getInstance();
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
 
     @EventHandler
-    public void onPlayerDisconnect(PlayerQuitEvent event) {
-        UUID playerUUID = event.getPlayer().getUniqueId();
+    public void onPlayerDisconnect(PlayerQuitEvent e) {
+        TimerHandler timerHandler = TimerHandler.getInstance();
+        UUID playerUUID = e.getPlayer().getUniqueId();
 
         if (timerHandler.isPlayerTagged(playerUUID)) {
-            event.getPlayer().setHealth(0.0);
+            e.getPlayer().setHealth(0.0);
             timerHandler.stopCombatTimer(playerUUID);
         }
     }
