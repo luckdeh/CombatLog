@@ -17,7 +17,7 @@ public class PlayerDisconnect implements Listener {
         TimerHandler timerHandler = TimerHandler.getInstance();
         UUID playerUUID = e.getPlayer().getUniqueId();
 
-        if (timerHandler.isPlayerTagged(playerUUID)) {
+        if (timerHandler != null && playerUUID != null && !timerHandler.isPlayerTagged(playerUUID)) {
             e.getPlayer().setHealth(0.0);
             timerHandler.stopCombatTimer(playerUUID);
         }
