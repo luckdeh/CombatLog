@@ -23,7 +23,7 @@ public class Countdown {
         plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, scheduledTask -> {
 
             //If the timer does not exist (stopped by timerHandler.stopCombatTimer) then end this countdown task.
-            if (timerHandler.getCombatTimer(playerUUID) == null || player == null) {
+            if (!timerHandler.isPlayerTagged(playerUUID) || player == null) {
                 scheduledTask.cancel();
                 return;
             }

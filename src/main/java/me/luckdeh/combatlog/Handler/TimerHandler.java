@@ -11,28 +11,38 @@ public class TimerHandler {
 
     public void startCombatTimer(Player player, Double taggedTime) {
 
-        //Checks if the countdown timer already exists. If it does (meaning it is not null), then it just tags the players again.
-        if (getCombatTimer(player.getUniqueId()) != null) {
-            setCombatTimer(player.getUniqueId(), taggedTime);
+        if (player == null) {
             return;
         }
 
-        timer.put(player.getUniqueId(), taggedTime);
+        UUID playerUUID = player.getUniqueId();
+
+        //Checks if the countdown timer already exists. If it does (meaning it is not null), then it just tags the player again.
+        if (isPlayerTagged(playerUUID)) {
+            setCombatTimer(playerUUID, taggedTime);
+            return;
+        }
+
+        timer.put(playerUUID, taggedTime);
         Countdown countdown = new Countdown();
-        countdown.performCountdown(player.getUniqueId(), player);
+        countdown.performCountdown(playerUUID, player);
     }
 
     public Double getCombatTimer(UUID playerUUID) {
         return timer.get(playerUUID);
     }
 
+    //Combat timer must be started for it to be set.
     public void setCombatTimer(UUID playerUUID, Double taggedTime) {
         timer.replace(playerUUID, taggedTime);
     }
 
     public void stopCombatTimer(UUID playerUUID) {
-        //Stop the timer
         timer.remove(playerUUID);
+    }
+
+    public boolean isPlayerTagged(UUID playerUUID) {
+        return timer.containsKey(playerUUID);
     }
 
     private static TimerHandler instance;
