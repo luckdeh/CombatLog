@@ -14,7 +14,6 @@ public class PlayerDamage implements Listener {
         if (!(e.getEntity() instanceof Player defender) || !(e.getDamager() instanceof Player attacker)) { return; }
 
         TimerHandler timerHandler = TimerHandler.getInstance();
-
         //Code to send message to the player goes here.
         //attacker.sendMessage
 
