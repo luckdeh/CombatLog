@@ -11,12 +11,15 @@ import java.util.UUID;
 
 public class PlayerDeath implements Listener {
 
+
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent e) {
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        UUID playerUUID = player.getUniqueId();
         TimerHandler timerHandler = TimerHandler.getInstance();
 
-        //Will add config later
-
+        if (timerHandler.isPlayerTagged(playerUUID)) {
+            timerHandler.stopCombatTimer(playerUUID);
+        }
     }
 }
-

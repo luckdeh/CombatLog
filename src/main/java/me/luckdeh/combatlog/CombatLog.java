@@ -2,6 +2,7 @@ package me.luckdeh.combatlog;
 
 import me.luckdeh.combatlog.Handler.TimerHandler;
 import me.luckdeh.combatlog.Listener.PlayerDamage;
+import me.luckdeh.combatlog.Listener.PlayerDeath;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ public final class CombatLog extends JavaPlugin {
         log = getLogger();
         instance = this;
         getServer().getPluginManager().registerEvents(new PlayerDamage(), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeath(), this);
         log.info("[CombatLog] Plugin enabled.");
     }
 
