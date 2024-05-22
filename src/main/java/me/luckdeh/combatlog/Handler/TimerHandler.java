@@ -45,6 +45,13 @@ public class TimerHandler {
         return timer.containsKey(playerUUID);
     }
 
+    //Should only be called in the event of a server shutdown!
+    public void clearAllCombatTags() {
+        if (!timer.isEmpty()) {
+            timer.clear();
+        }
+    }
+
     private static TimerHandler instance;
 
     public static TimerHandler getInstance() {

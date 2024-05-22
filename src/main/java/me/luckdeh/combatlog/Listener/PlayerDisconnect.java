@@ -15,15 +15,21 @@ public class PlayerDisconnect implements Listener {
 
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent e) {
+
+        //If the player is kicked by the server (by admin or by server shutdown), then do not run this event.
+        if (e.getReason().equals(PlayerQuitEvent.QuitReason.KICKED)) {
+            return;
+        }
+
         TimerHandler timerHandler = TimerHandler.getInstance();
 
         Player player = e.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        Boolean isPlayerTagged = timerHandler.isPlayerTagged(playerUUID);
-        if (isPlayerTagged == null) {
+        if (timerHandler.isPlayerTagged(playerUUID)) {
             player.setHealth(0.0);
         }
+
     }
 }
 
