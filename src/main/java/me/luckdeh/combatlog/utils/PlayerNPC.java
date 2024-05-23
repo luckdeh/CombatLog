@@ -1,4 +1,5 @@
 package me.luckdeh.combatlog.utils;
 
-public class SpawnPlayerNPC {
+public class PlayerNPC {
+
 }

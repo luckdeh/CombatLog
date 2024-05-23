@@ -1,17 +1,19 @@
 package me.luckdeh.combatlog.Listener;
 
 
+import me.luckdeh.combatlog.CombatLog;
 import me.luckdeh.combatlog.Handler.TimerHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 
 public class PlayerDisconnect implements Listener {
+
+    CombatLog plugin = CombatLog.getInstance();
 
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent e) {
@@ -26,6 +28,7 @@ public class PlayerDisconnect implements Listener {
         Player player = e.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
+        //Spawn an NPC that goes away after the set amount of combat tag.
         if (timerHandler.isPlayerTagged(playerUUID)) {
             player.setHealth(0.0);
         }
