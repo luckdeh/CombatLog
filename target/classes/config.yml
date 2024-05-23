@@ -8,10 +8,13 @@ combat-time: 30
 combat-log-kick: false
 
 #Should the plugin spawn an NPC instead of immediately kill the player?
-spawn-npc: false
+spawn-npc: true
 
-#NPC Type (only applies if spawn-npc is true).
-npc-type: PLAYER
+#Should the NPC be a player?
+npc-player: true
+
+#NPC Type (only applies if spawn-npc is true and npc-player is false).
+npc-type: VILLAGER
 
 #Should NPCs that are not players have AI?
 npc-ai: true
