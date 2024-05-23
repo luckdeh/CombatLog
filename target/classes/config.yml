@@ -1,0 +1,20 @@
+#Config File for CombatLog
+#Made by Luckdeh and Navoei
+
+#How long should the combat tag be in seconds?
+combat-time: 30
+
+#Should players combat log even if they are intentionally kicked by a plugin or the server?
+combat-log-kick: false
+
+#Should the plugin spawn an NPC instead of immediately kill the player?
+spawn-npc: false
+
+#NPC Type (only applies if spawn-npc is true).
+npc-type: PLAYER
+
+#Should NPCs that are not players have AI?
+npc-ai: true
+
+#Should a spawned npc be able to transform? (EX: Villagers turn into zombies)
+npc-can-transform: false
