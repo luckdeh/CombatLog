@@ -31,6 +31,7 @@ public class PlayerDisconnect implements Listener {
         //Spawn an NPC that goes away after the set amount of combat tag.
         if (timerHandler.isPlayerTagged(playerUUID)) {
             player.setHealth(0.0);
+            timerHandler.stopCombatTimer(player.getUniqueId());
         }
 
     }

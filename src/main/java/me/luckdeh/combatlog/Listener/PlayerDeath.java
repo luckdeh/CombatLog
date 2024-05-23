@@ -27,6 +27,8 @@ public class PlayerDeath implements Listener {
 
         if (timerHandler.isPlayerTagged(playerUUID)) {
             timerHandler.stopCombatTimer(playerUUID);
+        }
+        if (timerHandler.isPlayerTagged(killerUUID)) {
             timerHandler.stopCombatTimer(killerUUID);
         }
     }
