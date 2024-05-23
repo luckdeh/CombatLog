@@ -18,7 +18,7 @@ public class PlayerDisconnect implements Listener {
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent e) {
 
-        //If the player is kicked by the server (by admin or by server shutdown), then do not run this event.
+        // If the player is kicked by the server (by admin or by server shutdown), then do not run this event.
         if (Bukkit.getServer().isStopping() || e.getReason().equals(PlayerQuitEvent.QuitReason.KICKED)) {
             return;
         }
@@ -28,12 +28,10 @@ public class PlayerDisconnect implements Listener {
         Player player = e.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        //Spawn an NPC that goes away after the set amount of combat tag.
+        // Check if the player is tagged for combat
         if (timerHandler.isPlayerTagged(playerUUID)) {
             player.setHealth(0.0);
-            timerHandler.stopCombatTimer(player.getUniqueId());
         }
-
+        timerHandler.stopCombatTimer(playerUUID);
     }
 }
-
