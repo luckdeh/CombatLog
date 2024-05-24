@@ -31,7 +31,8 @@ public class PlayerDisconnect implements Listener {
         // Check if the player is tagged for combat
         if (timerHandler.isPlayerTagged(playerUUID)) {
             player.setHealth(0.0);
+            timerHandler.stopCombatTimer(playerUUID);
+            //spawn the npc
         }
-        timerHandler.stopCombatTimer(playerUUID);
     }
 }
