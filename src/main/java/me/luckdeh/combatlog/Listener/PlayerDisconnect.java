@@ -3,6 +3,7 @@ package me.luckdeh.combatlog.Listener;
 
 import me.luckdeh.combatlog.CombatLog;
 import me.luckdeh.combatlog.Handler.TimerHandler;
+import me.luckdeh.combatlog.utils.EntityNPC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 public class PlayerDisconnect implements Listener {
 
-    CombatLog plugin = CombatLog.getInstance();
+    private CombatLog plugin = CombatLog.getInstance();
 
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent e) {
@@ -30,9 +31,9 @@ public class PlayerDisconnect implements Listener {
 
         // Check if the player is tagged for combat
         if (timerHandler.isPlayerTagged(playerUUID)) {
-            player.setHealth(0.0);
             timerHandler.stopCombatTimer(playerUUID);
-            //spawn the npc
+
+            EntityNPC.spawnVillagerNPC(player.getLocation(), player.getName(), playerUUID);
         }
     }
 }
