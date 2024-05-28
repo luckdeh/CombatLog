@@ -18,7 +18,7 @@ public class EntityNPC {
         plugin = pluginInstance;
     }
 
-    //Spawn a villager/npc and save to hashmap
+    //Spawn villager
     public static void spawnVillagerNPC(Location location, String playerName, UUID playerUUID) {
         Bukkit.getScheduler().runTask(plugin, () -> {
             Villager villager = (Villager) location.getWorld().spawnEntity(location, EntityType.VILLAGER);
@@ -26,16 +26,16 @@ public class EntityNPC {
             villager.setCustomNameVisible(true);
             villager.setAI(true);
 
-            // Save the NPC to the hashmap
             npcMap.put(playerUUID, villager);
         });
     }
 
-    //Get the NPC
+    //Get NPC
     public static Villager getNPC(UUID playerUUID) {
         return npcMap.get(playerUUID);
     }
-    //Remove The NPC
+
+    //remove NPC
     public static void removeNPC(UUID playerUUID) {
         Villager villager = npcMap.remove(playerUUID);
         if (villager != null) {
