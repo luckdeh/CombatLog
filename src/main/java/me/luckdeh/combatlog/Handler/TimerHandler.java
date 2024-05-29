@@ -55,9 +55,6 @@ public class TimerHandler {
             log.info("[CombatLog] No combat tags found. Skipping...");
             return;
         }
-        for (UUID playerUUID : timer.keySet()) {
-            stopCombatTimer(playerUUID);
-        }
         timer.clear();
         log.info("[CombatLog] Combat tags removed successfully!");
     }
