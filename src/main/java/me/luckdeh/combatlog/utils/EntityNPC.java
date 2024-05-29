@@ -82,13 +82,13 @@ public class EntityNPC {
         log.info("[CombatLog] Removing all NPCs...");
         if (npcHashMap.isEmpty()) {
             log.info("[CombatLog] No NPCs found. Skipping...");
-            return;
+        } else {
+            for (Entity entity : npcHashMap.values()) {
+                entity.remove();
+            }
+            npcHashMap.clear();
+            log.info("[CombatLog] All NPCs removed successfully!");
         }
-        for (Entity entity : npcHashMap.values()) {
-            entity.remove();
-        }
-        npcHashMap.clear();
-        log.info("[CombatLog] All NPCs removed successfully!");
 
         //Clear NPCInventory HashMap
         log.info("[CombatLog] Removing all players...");
