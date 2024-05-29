@@ -10,13 +10,13 @@ combat-log-kick: false
 #Should the plugin spawn an NPC instead of immediately kill the player?
 spawn-npc: true
 
-#Should the NPC be a player?
-npc-player: true
+#Should the NPC be a player? [Work in progress.]
+#npc-player: true
 
 #NPC Type (only applies if spawn-npc is true and npc-player is false).
 npc-type: VILLAGER
 
-#Should NPCs that are not players have AI?
+#Should NPCs have AI?
 npc-ai: true
 
 #Should a spawned npc be able to transform? (EX: Villagers turn into zombies)

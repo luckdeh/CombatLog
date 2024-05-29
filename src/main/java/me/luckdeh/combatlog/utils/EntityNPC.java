@@ -21,7 +21,6 @@ public class EntityNPC {
         Location location = player.getLocation();
         UUID playerUUID = player.getUniqueId();
         String playerName = player.getName();
-        Float playerExp = player.getExp();
 
         Entity entity = location.getWorld().spawnEntity(location, entityType());
 
