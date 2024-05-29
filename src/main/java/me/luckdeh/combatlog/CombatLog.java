@@ -17,6 +17,8 @@ public final class CombatLog extends JavaPlugin {
         // Plugin startup logic
         log = getLogger();
         instance = this;
+        saveDefaultConfig();
+
         log.info("[CombatLog] Registering events...");
         getServer().getPluginManager().registerEvents(new PlayerDamage(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeath(), this);

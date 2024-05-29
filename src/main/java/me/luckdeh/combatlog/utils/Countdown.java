@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import me.luckdeh.combatlog.Handler.TimerHandler;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 public class Countdown {
@@ -39,7 +40,9 @@ public class Countdown {
             }
 
             //Send the time message to the players (will change it to the actionbar later).
-            player.sendMessage(decimalFormat.format(combatTime));
+            Component textComponent = Component.text().
+                    content(decimalFormat.format(combatTime)).build();
+            player.sendActionBar(textComponent);
 
         }, 0,100, TimeUnit.MILLISECONDS);
     }

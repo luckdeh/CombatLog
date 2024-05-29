@@ -51,6 +51,9 @@ public class EntityNPC {
 
         npcHashMap.put(playerUUID, entity);
         offlinePlayerHashMap.put(playerUUID, player);
+
+        //Remove NPC and player data after combat time.
+
     }
 
     //Get NPC
