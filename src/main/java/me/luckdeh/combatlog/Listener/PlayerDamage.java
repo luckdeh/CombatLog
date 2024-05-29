@@ -19,6 +19,7 @@ public class PlayerDamage implements Listener {
         //attacker.sendMessage
 
         //Tag both players for 30 seconds (will add configuration later).
+        //The 30 seconds should be made configurable.
         timerHandler.startCombatTimer(attacker, 30d);
         timerHandler.startCombatTimer(defender, 30d);
 

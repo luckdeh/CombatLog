@@ -103,6 +103,7 @@ public class EntityNPC {
     }
 
     public EntityType entityType() {
+        //Will be made configurable later.
         return EntityType.fromName("VILLAGER");
     }
 

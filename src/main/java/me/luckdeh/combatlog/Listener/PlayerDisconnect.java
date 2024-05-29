@@ -18,6 +18,7 @@ public class PlayerDisconnect implements Listener {
     public void onPlayerDisconnect(PlayerQuitEvent e) {
 
         // If the player is kicked by the server (by admin or by server shutdown), then do not run this event.
+        //Will be made configurable later.
         if (Bukkit.getServer().isStopping() || e.getReason().equals(PlayerQuitEvent.QuitReason.KICKED)) {
             return;
         }

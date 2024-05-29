@@ -9,6 +9,7 @@ public class EntityTransform implements Listener {
 
     @EventHandler
     public void onEntityTransform(EntityTransformEvent e) {
+        //Will be made configurable.
         EntityNPC entityNPC = EntityNPC.getInstance();
         if (!entityNPC.isNPCContainedInHashMap(e.getEntity())) {
             return;
