@@ -1,10 +1,10 @@
 package me.luckdeh.combatlog.Listener;
 
 
-import me.luckdeh.combatlog.CombatLog;
 import me.luckdeh.combatlog.Handler.TimerHandler;
 import me.luckdeh.combatlog.utils.EntityNPC;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,8 +13,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.UUID;
 
 public class PlayerDisconnect implements Listener {
-
-    private CombatLog plugin = CombatLog.getInstance();
 
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent e) {
@@ -33,7 +31,8 @@ public class PlayerDisconnect implements Listener {
         if (timerHandler.isPlayerTagged(playerUUID)) {
             timerHandler.stopCombatTimer(playerUUID);
 
-            EntityNPC.spawnVillagerNPC(player.getLocation(), player.getName(), playerUUID);
+            EntityNPC entityNPC = EntityNPC.getInstance();
+            entityNPC.spawn(player);
         }
     }
 }

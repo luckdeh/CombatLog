@@ -1,13 +1,16 @@
 package me.luckdeh.combatlog.Handler;
 
+import me.luckdeh.combatlog.CombatLog;
 import me.luckdeh.combatlog.utils.Countdown;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class TimerHandler {
     private final HashMap<UUID, Double> timer = new HashMap<>();
+    private final Logger log = CombatLog.getInstance().getLogger();
 
     public void startCombatTimer(Player player, Double taggedTime) {
 
@@ -47,9 +50,16 @@ public class TimerHandler {
 
     //Should only be called in the event of a server shutdown!
     public void clearAllCombatTags() {
-        if (!timer.isEmpty()) {
-            timer.clear();
+        log.info("[CombatLog] Removing all combat tags...");
+        if (timer.isEmpty()) {
+            log.info("[CombatLog] No combat tags found. Skipping...");
+            return;
         }
+        for (UUID playerUUID : timer.keySet()) {
+            stopCombatTimer(playerUUID);
+        }
+        timer.clear();
+        log.info("[CombatLog] Combat tags removed successfully!");
     }
 
     private static TimerHandler instance;

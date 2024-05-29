@@ -1,10 +1,7 @@
 package me.luckdeh.combatlog;
 
 import me.luckdeh.combatlog.Handler.TimerHandler;
-import me.luckdeh.combatlog.Listener.PlayerDamage;
-import me.luckdeh.combatlog.Listener.PlayerDeath;
-import me.luckdeh.combatlog.Listener.PlayerDisconnect;
-import me.luckdeh.combatlog.Listener.PlayerJoin;
+import me.luckdeh.combatlog.Listener.*;
 import me.luckdeh.combatlog.utils.EntityNPC;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,11 +17,14 @@ public final class CombatLog extends JavaPlugin {
         // Plugin startup logic
         log = getLogger();
         instance = this;
-        EntityNPC.initialize(this);
+        log.info("[CombatLog] Registering events...");
         getServer().getPluginManager().registerEvents(new PlayerDamage(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeath(), this);
         getServer().getPluginManager().registerEvents(new PlayerDisconnect(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+        getServer().getPluginManager().registerEvents(new EntityDamagedByPlayer(), this);
+        getServer().getPluginManager().registerEvents(new EntityTransform(), this);
+        getServer().getPluginManager().registerEvents(new EntityNPCDeath(), this);
 
         log.info("[CombatLog] Plugin enabled.");
     }
@@ -34,9 +34,8 @@ public final class CombatLog extends JavaPlugin {
         // Plugin shutdown logic
 
         //Remove all combat tags.
-        log.info("[CombatLog] Removing all combat tags...");
         TimerHandler.getInstance().clearAllCombatTags();
-        log.info("[CombatLog] All combat tags successfully removed.");
+        EntityNPC.getInstance().removeAllNPCData();
         log.info("[CombatLog] Plugin disabled.");
     }
 

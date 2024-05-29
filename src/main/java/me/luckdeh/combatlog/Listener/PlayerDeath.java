@@ -18,18 +18,19 @@ public class PlayerDeath implements Listener {
         if (player.getKiller() == null) {
             return;
         }
-        Player killer = player.getKiller();
-
-        UUID playerUUID = player.getUniqueId();
-        UUID killerUUID = killer.getUniqueId();
 
         TimerHandler timerHandler = TimerHandler.getInstance();
 
+        UUID playerUUID = player.getUniqueId();
         if (timerHandler.isPlayerTagged(playerUUID)) {
             timerHandler.stopCombatTimer(playerUUID);
         }
-        if (timerHandler.isPlayerTagged(killerUUID)) {
-            timerHandler.stopCombatTimer(killerUUID);
-        }
+
+        //Will be made configurable later.
+        //Player killer = player.getKiller();
+        //UUID killerUUID = killer.getUniqueId();
+        //if (timerHandler.isPlayerTagged(killerUUID)) {
+        //    timerHandler.stopCombatTimer(killerUUID);
+        //}
     }
 }
