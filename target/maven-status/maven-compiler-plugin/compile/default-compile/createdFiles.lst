@@ -2,7 +2,6 @@ me\luckdeh\combatlog\Listener\PlayerDamage.class
 me\luckdeh\combatlog\Listener\PlayerDeath.class
 me\luckdeh\combatlog\Listener\EntityTransform.class
 me\luckdeh\combatlog\utils\EntityNPC.class
-me\luckdeh\combatlog\Handler\PlayerDataHandler.class
 me\luckdeh\combatlog\utils\Countdown.class
 me\luckdeh\combatlog\Handler\TimerHandler.class
 me\luckdeh\combatlog\CombatLog.class
