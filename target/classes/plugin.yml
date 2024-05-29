@@ -2,4 +2,4 @@ name: CombatLog
 version: '1.0'
 main: me.luckdeh.combatlog.CombatLog
 api-version: '1.20'
-depend: [Citizens]
+depend: [Citizens, OpenInv]
