@@ -18,6 +18,3 @@ npc-type: VILLAGER
 
 #Should NPCs have AI?
 npc-ai: true
-
-#Should a spawned npc be able to transform? (EX: Villagers turn into zombies)
-npc-can-transform: false

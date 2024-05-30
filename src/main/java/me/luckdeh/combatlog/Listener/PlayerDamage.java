@@ -20,7 +20,6 @@ public class PlayerDamage implements Listener {
             return;
         }
 
-
         //Combat Time
         double combatTime = plugin.getConfig().getDouble("combat-time", 30); // Default to 30 if not set
 

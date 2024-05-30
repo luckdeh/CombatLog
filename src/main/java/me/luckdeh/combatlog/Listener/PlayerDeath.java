@@ -26,11 +26,5 @@ public class PlayerDeath implements Listener {
             timerHandler.stopCombatTimer(playerUUID);
         }
 
-        //Will be made configurable later.
-        //Player killer = player.getKiller();
-        //UUID killerUUID = killer.getUniqueId();
-        //if (timerHandler.isPlayerTagged(killerUUID)) {
-        //    timerHandler.stopCombatTimer(killerUUID);
-        //}
     }
 }

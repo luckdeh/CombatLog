@@ -50,18 +50,21 @@ public class EntityNPC {
             livingEntity.setAI(entityAI);
         }
 
+        //Specific Cases.
         if (entity instanceof Villager) {
             Villager villager = (Villager) entity;
             villager.setProfession(Villager.Profession.NITWIT);
             villager.setBreed(false);
         }
-        // Add more specific cases if needed
+        // Add more specific cases if needed.
 
         npcHashMap.put(playerUUID, entity);
         offlinePlayerHashMap.put(playerUUID, player);
 
         // Remove NPC and player data after combat time.
         // Implement this logic as needed.
+        // removeNPCAfter(entity, combatTime);
+        // Could use a repeating task.
     }
 
     // Get NPC

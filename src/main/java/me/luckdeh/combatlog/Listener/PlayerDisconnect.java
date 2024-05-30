@@ -1,6 +1,7 @@
 package me.luckdeh.combatlog.Listener;
 
 
+import me.luckdeh.combatlog.CombatLog;
 import me.luckdeh.combatlog.Handler.TimerHandler;
 import me.luckdeh.combatlog.utils.EntityNPC;
 import org.bukkit.Bukkit;
@@ -13,6 +14,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.UUID;
 
 public class PlayerDisconnect implements Listener {
+
+
+    private CombatLog plugin = CombatLog.getInstance();
 
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent e) {
@@ -32,6 +36,12 @@ public class PlayerDisconnect implements Listener {
         if (timerHandler.isPlayerTagged(playerUUID)) {
             timerHandler.stopCombatTimer(playerUUID);
 
+            //Spawn NPC?
+            boolean spawnNPC = plugin.getConfig().getBoolean("spawn-npc", true); // Default to true if not set.
+            if (!spawnNPC) {
+                player.setHealth(0);
+                return;
+            }
             EntityNPC entityNPC = EntityNPC.getInstance();
             entityNPC.spawn(player);
         }
