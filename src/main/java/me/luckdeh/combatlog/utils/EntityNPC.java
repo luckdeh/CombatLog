@@ -11,19 +11,23 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 public class EntityNPC {
+
+    private CombatLog plugin = CombatLog.getInstance();
     private final HashMap<UUID, Entity> npcHashMap = new HashMap<>();
     private final HashMap<UUID, Player> offlinePlayerHashMap = new HashMap<>();
     private final Logger log = CombatLog.getInstance().getLogger();
 
-    //Spawn NPC
+    // Spawn NPC
     public void spawn(Player player) {
 
         Location location = player.getLocation();
         UUID playerUUID = player.getUniqueId();
         String playerName = player.getName();
 
-        Entity entity = location.getWorld().spawnEntity(location, entityType());
+        EntityType entityType = entityType();
+        Entity entity = location.getWorld().spawnEntity(location, entityType);
 
+        // Set custom name for the entity
         Component customNameComponent = Component.text()
                 .content("CombatLogger | ")
                 .append(Component.text(playerName))
@@ -31,37 +35,41 @@ public class EntityNPC {
         entity.customName(customNameComponent);
         entity.setCustomNameVisible(true);
 
-        LivingEntity livingEntity = (LivingEntity) entity;
-        livingEntity.getEquipment().setArmorContents(player.getEquipment().getArmorContents());
-        livingEntity.getEquipment().setDropChance(EquipmentSlot.HEAD, 0);
-        livingEntity.getEquipment().setDropChance(EquipmentSlot.BODY, 0);
-        livingEntity.getEquipment().setDropChance(EquipmentSlot.LEGS, 0);
-        livingEntity.getEquipment().setDropChance(EquipmentSlot.FEET, 0);
-        livingEntity.getEquipment().setDropChance(EquipmentSlot.HAND, 0);
-        livingEntity.getEquipment().setDropChance(EquipmentSlot.OFF_HAND, 0);
+        // Apply common properties
+        if (entity instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity) entity;
+            livingEntity.getEquipment().setArmorContents(player.getEquipment().getArmorContents());
+            livingEntity.getEquipment().setDropChance(EquipmentSlot.HEAD, 0);
+            livingEntity.getEquipment().setDropChance(EquipmentSlot.BODY, 0);
+            livingEntity.getEquipment().setDropChance(EquipmentSlot.LEGS, 0);
+            livingEntity.getEquipment().setDropChance(EquipmentSlot.FEET, 0);
+            livingEntity.getEquipment().setDropChance(EquipmentSlot.HAND, 0);
+            livingEntity.getEquipment().setDropChance(EquipmentSlot.OFF_HAND, 0);
 
-        //Will be made configurable later.
-        //livingEntity.setAI(false);
+            boolean entityAI = this.plugin.getConfig().getBoolean("npc-ai");
+            livingEntity.setAI(entityAI);
+        }
 
-        if (entity.getType().equals(EntityType.VILLAGER)) {
+        if (entity instanceof Villager) {
             Villager villager = (Villager) entity;
             villager.setProfession(Villager.Profession.NITWIT);
             villager.setBreed(false);
         }
+        // Add more specific cases if needed
 
         npcHashMap.put(playerUUID, entity);
         offlinePlayerHashMap.put(playerUUID, player);
 
-        //Remove NPC and player data after combat time.
-
+        // Remove NPC and player data after combat time.
+        // Implement this logic as needed.
     }
 
-    //Get NPC
+    // Get NPC
     public Entity getNPC(UUID playerUUID) {
         return npcHashMap.get(playerUUID);
     }
 
-    //remove NPC
+    // Remove NPC
     public void removeNPC(UUID playerUUID) {
         Entity entity = getNPC(playerUUID);
         if (entity != null) {
@@ -74,13 +82,14 @@ public class EntityNPC {
     public void removeNPCFromHashMap(UUID playerUUID) {
         npcHashMap.remove(playerUUID);
     }
+
     public void removeOfflinePlayerFromHashMap(UUID playerUUID) {
         offlinePlayerHashMap.remove(playerUUID);
     }
 
-    //Removes all NPCs in the world. Should only be called when server stops!
+    // Removes all NPCs in the world. Should only be called when server stops!
     public void removeAllNPCData() {
-        //Clear NPC HashMap
+        // Clear NPC HashMap
         log.info("[CombatLog] Removing all NPCs...");
         if (npcHashMap.isEmpty()) {
             log.info("[CombatLog] No NPCs found. Skipping...");
@@ -92,7 +101,7 @@ public class EntityNPC {
             log.info("[CombatLog] All NPCs removed successfully!");
         }
 
-        //Clear NPCInventory HashMap
+        // Clear NPCInventory HashMap
         log.info("[CombatLog] Removing all players...");
         if (offlinePlayerHashMap.isEmpty()) {
             log.info("[CombatLog] No players found. Skipping...");
@@ -103,8 +112,14 @@ public class EntityNPC {
     }
 
     public EntityType entityType() {
-        //Will be made configurable later.
-        return EntityType.fromName("VILLAGER");
+        String npcTypeName = plugin.getConfig().getString("npc-type", "VILLAGER").toUpperCase();
+        try {
+            EntityType entityType = EntityType.valueOf(npcTypeName);
+            return entityType;
+        } catch (IllegalArgumentException e) {
+            log.warning("[CombatLog] Invalid NPC type specified in config: " + npcTypeName + ". Defaulting to VILLAGER.");
+            return EntityType.VILLAGER;
+        }
     }
 
     public boolean isNPCContainedInHashMap(Entity entity) {
@@ -132,5 +147,4 @@ public class EntityNPC {
         }
         return instance;
     }
-
 }

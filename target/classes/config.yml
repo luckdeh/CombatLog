@@ -14,7 +14,7 @@ spawn-npc: true
 #npc-player: true
 
 #NPC Type (only applies if spawn-npc is true and npc-player is false).
-npc-type: CREEPER
+npc-type: VILLAGER
 
 #Should NPCs have AI?
 npc-ai: true
