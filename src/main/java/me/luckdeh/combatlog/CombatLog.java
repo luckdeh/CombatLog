@@ -29,11 +29,11 @@ public final class CombatLog extends JavaPlugin {
         loadLang();
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
-            log.warning("[CombatLog] Could not find PlaceholderAPI! This plugin is required.");
+            log.warning("Could not find PlaceholderAPI! This plugin is required.");
             Bukkit.getPluginManager().disablePlugin(this);
         }
 
-        log.info("[CombatLog] Registering events...");
+        log.info("Registering events...");
         getServer().getPluginManager().registerEvents(new PlayerDamage(this), this);
         getServer().getPluginManager().registerEvents(new PlayerDeath(), this);
         getServer().getPluginManager().registerEvents(new PlayerDisconnect(), this);
@@ -42,7 +42,7 @@ public final class CombatLog extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityTransform(), this);
         getServer().getPluginManager().registerEvents(new EntityNPCDeath(), this);
         getServer().getPluginManager().registerEvents(new EntityUnload(), this);
-        log.info("[CombatLog] Plugin enabled.");
+        log.info("Plugin enabled.");
     }
 
     @Override

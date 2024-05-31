@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class EntityDamagedByPlayer implements Listener {
 
-    private CombatLog plugin = CombatLog.getInstance();
+    private final CombatLog plugin = CombatLog.getInstance();
 
     @EventHandler
     public void onEntityDamagedByPlayer(EntityDamageByEntityEvent e) {

@@ -8,12 +8,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 public class TimerHandler {
-    private final HashMap<UUID, Double> timer = new HashMap<>();
+    private final ConcurrentHashMap<UUID, Double> timer = new ConcurrentHashMap<>();
     private final Logger log = CombatLog.getInstance().getLogger();
     private final CombatLog plugin = CombatLog.getInstance();
 

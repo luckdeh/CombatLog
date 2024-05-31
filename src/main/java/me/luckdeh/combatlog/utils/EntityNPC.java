@@ -11,8 +11,8 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
@@ -20,8 +20,8 @@ import java.util.logging.Logger;
 public class EntityNPC {
 
     private final CombatLog plugin = CombatLog.getInstance();
-    private final HashMap<UUID, Entity> npcHashMap = new HashMap<>();
-    private final HashMap<UUID, Player> offlinePlayerHashMap = new HashMap<>();
+    private final ConcurrentHashMap<UUID, Entity> npcHashMap = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, Player> offlinePlayerHashMap = new ConcurrentHashMap<>();
     private final Logger log = CombatLog.getInstance().getLogger();
 
     DecimalFormat decimalFormat = new DecimalFormat("0.0");
@@ -44,22 +44,28 @@ public class EntityNPC {
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) entity;
             livingEntity.getEquipment().setArmorContents(player.getEquipment().getArmorContents());
+            livingEntity.getEquipment().setItemInMainHand(player.getEquipment().getItemInMainHand());
+            livingEntity.getEquipment().setItemInOffHand(player.getEquipment().getItemInOffHand());
             livingEntity.getEquipment().setDropChance(EquipmentSlot.HEAD, 0);
             livingEntity.getEquipment().setDropChance(EquipmentSlot.BODY, 0);
             livingEntity.getEquipment().setDropChance(EquipmentSlot.LEGS, 0);
             livingEntity.getEquipment().setDropChance(EquipmentSlot.FEET, 0);
             livingEntity.getEquipment().setDropChance(EquipmentSlot.HAND, 0);
             livingEntity.getEquipment().setDropChance(EquipmentSlot.OFF_HAND, 0);
+            livingEntity.setCanPickupItems(false);
 
             boolean entityAI = this.plugin.getConfig().getBoolean("npc-ai");
             livingEntity.setAI(entityAI);
         }
 
         //Specific Cases.
-        if (entity instanceof Villager) {
-            Villager villager = (Villager) entity;
+        if (entity instanceof Villager villager) {
             villager.setProfession(Villager.Profession.NITWIT);
             villager.setBreed(false);
+        } else if (entity instanceof Skeleton skeleton) {
+            skeleton.setShouldBurnInDay(false);
+        } else if (entity instanceof Zombie zombie) {
+            zombie.setShouldBurnInDay(false);
         }
         // Add more specific cases if needed.
 
@@ -117,10 +123,11 @@ public class EntityNPC {
         offlinePlayerHashMap.remove(playerUUID);
     }
 
-    public void removeNPCFromHashMap(Entity entity) {
+    public void removeDataFromHashMaps(Entity entity) {
         for (UUID playerUUID : npcHashMap.keySet()) {
             if (entity == getNPC(playerUUID)) {
-                npcHashMap.remove(playerUUID);
+                removeNPCFromHashMap(playerUUID);
+                removeOfflinePlayerFromHashMap(playerUUID);
             }
         }
     }

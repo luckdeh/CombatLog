@@ -1,12 +1,7 @@
 package me.luckdeh.combatlog.Listener;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.luckdeh.combatlog.CombatLog;
 import me.luckdeh.combatlog.Handler.TimerHandler;
-import me.luckdeh.combatlog.Language.Lang;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
