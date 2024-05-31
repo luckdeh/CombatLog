@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class EntityNPC {
 
-    private CombatLog plugin = CombatLog.getInstance();
+    private final CombatLog plugin = CombatLog.getInstance();
     private final HashMap<UUID, Entity> npcHashMap = new HashMap<>();
     private final HashMap<UUID, Player> offlinePlayerHashMap = new HashMap<>();
     private final Logger log = CombatLog.getInstance().getLogger();
@@ -117,16 +117,13 @@ public class EntityNPC {
         offlinePlayerHashMap.remove(playerUUID);
     }
 
-    public void removeUnloadedNPCFromHashMaps(Entity entity) {
+    public void removeNPCFromHashMap(Entity entity) {
         for (UUID playerUUID : npcHashMap.keySet()) {
-            if (npcHashMap.get(playerUUID).equals(entity)) {
-                System.out.println("REMOVING ENTITY FROM HASHMAP WITH UUID: " + playerUUID.toString());
+            if (entity == getNPC(playerUUID)) {
                 npcHashMap.remove(playerUUID);
-                offlinePlayerHashMap.remove(playerUUID);
             }
         }
     }
-
     public void removeNPCFromHashMap(UUID playerUUID) {
         npcHashMap.remove(playerUUID);
     }
@@ -138,25 +135,25 @@ public class EntityNPC {
     // Removes all NPCs in the world. Should only be called when server stops!
     public void removeAllNPCData() {
         // Clear NPC HashMap
-        log.info("[CombatLog] Removing all NPCs...");
+        log.info("Removing all NPCs...");
         if (npcHashMap.isEmpty()) {
-            log.info("[CombatLog] No NPCs found. Skipping...");
+            log.info("No NPCs found. Skipping...");
         } else {
             for (Entity entity : npcHashMap.values()) {
                 entity.remove();
             }
             npcHashMap.clear();
-            log.info("[CombatLog] All NPCs removed successfully!");
+            log.info("All NPCs removed successfully!");
         }
 
         // Clear NPCInventory HashMap
-        log.info("[CombatLog] Removing all players...");
+        log.info("Removing all players...");
         if (offlinePlayerHashMap.isEmpty()) {
-            log.info("[CombatLog] No players found. Skipping...");
+            log.info("No players found. Skipping...");
             return;
         }
         offlinePlayerHashMap.clear();
-        log.info("[CombatLog] All players removed successfully!");
+        log.info("All players removed successfully!");
     }
 
     public EntityType entityType() {
@@ -165,7 +162,7 @@ public class EntityNPC {
             EntityType entityType = EntityType.valueOf(npcTypeName);
             return entityType;
         } catch (IllegalArgumentException e) {
-            log.warning("[CombatLog] Invalid NPC type specified in config: " + npcTypeName + ". Defaulting to VILLAGER.");
+            log.warning("Invalid NPC type specified in config: " + npcTypeName + ". Defaulting to VILLAGER.");
             return EntityType.VILLAGER;
         }
     }

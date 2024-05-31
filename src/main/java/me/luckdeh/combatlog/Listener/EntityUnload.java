@@ -13,8 +13,7 @@ public class EntityUnload implements Listener {
         EntityNPC entityNPC = EntityNPC.getInstance();
         for (Entity entity : e.getEntities()) {
             if (entityNPC.isNPCContainedInHashMap(entity)) {
-                System.out.println("Unloading entity!");
-                entityNPC.removeUnloadedNPCFromHashMaps(entity);
+                entityNPC.removeNPCFromHashMap(entity);
                 entity.remove();
             }
         }
