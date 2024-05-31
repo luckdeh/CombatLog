@@ -4,7 +4,7 @@
 #How long should the combat tag be in seconds?
 combat-time: 30
 
-#Should players combat log even if they are intentionally kicked by a plugin or the server?
+#Should players combat log even if they are intentionally kicked by another plugin?
 combat-log-kick: false
 
 #Should the plugin spawn an NPC instead of immediately kill the player?
@@ -18,6 +18,3 @@ npc-type: VILLAGER
 
 #Should NPCs have AI?
 npc-ai: true
-
-#Should a spawned npc be able to transform? (EX: Villagers turn into zombies)
-npc-can-transform: false

@@ -1,7 +1,11 @@
 package me.luckdeh.combatlog.Handler;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.luckdeh.combatlog.CombatLog;
+import me.luckdeh.combatlog.Language.Lang;
 import me.luckdeh.combatlog.utils.Countdown;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -11,6 +15,7 @@ import java.util.logging.Logger;
 public class TimerHandler {
     private final HashMap<UUID, Double> timer = new HashMap<>();
     private final Logger log = CombatLog.getInstance().getLogger();
+    private final CombatLog plugin = CombatLog.getInstance();
 
     public void startCombatTimer(Player player, Double taggedTime) {
 
@@ -27,6 +32,11 @@ public class TimerHandler {
         }
 
         timer.put(playerUUID, taggedTime);
+
+        Component textComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(PlaceholderAPI.setPlaceholders(player, Lang.PREFIX + Lang.COMBAT.toString()));
+
+        player.sendMessage(textComponent);
+
         Countdown countdown = new Countdown();
         countdown.performCountdown(playerUUID, player);
     }
@@ -42,6 +52,13 @@ public class TimerHandler {
 
     public void stopCombatTimer(UUID playerUUID) {
         timer.remove(playerUUID);
+
+        Player player = plugin.getServer().getPlayer(playerUUID);
+        if (player == null) {
+            return;
+        }
+        Component textComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(PlaceholderAPI.setPlaceholders(player, Lang.PREFIX + Lang.NO_COMBAT.toString()));
+        player.sendMessage(textComponent);
     }
 
     public boolean isPlayerTagged(UUID playerUUID) {

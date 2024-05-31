@@ -1,0 +1,13 @@
+#Language File for CombatLog
+#Placeholder API is supported!
+prefix: "&2[&cCombatLog&2] &8»&r"
+combat: "&cYou are now in combat. Do not log out!"
+no-combat: "&aYou are no longer in combat."
+
+#Required placeholders:
+# %combat_time%
+actionbar: "&c%combat_time%"
+
+#Required placeholders:
+# %despawn_time%
+npc-nametag: "&aCombatLogger &8| &r%player_name% &8| &c%despawn_time%"

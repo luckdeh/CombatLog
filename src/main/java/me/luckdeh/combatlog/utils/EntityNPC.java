@@ -1,13 +1,20 @@
 package me.luckdeh.combatlog.utils;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.luckdeh.combatlog.CombatLog;
+import me.luckdeh.combatlog.Language.Lang;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 public class EntityNPC {
@@ -17,21 +24,19 @@ public class EntityNPC {
     private final HashMap<UUID, Player> offlinePlayerHashMap = new HashMap<>();
     private final Logger log = CombatLog.getInstance().getLogger();
 
+    DecimalFormat decimalFormat = new DecimalFormat("0.0");
+
     // Spawn NPC
     public void spawn(Player player) {
 
         Location location = player.getLocation();
         UUID playerUUID = player.getUniqueId();
-        String playerName = player.getName();
 
         EntityType entityType = entityType();
         Entity entity = location.getWorld().spawnEntity(location, entityType);
 
         // Set custom name for the entity
-        Component customNameComponent = Component.text()
-                .content("CombatLogger | ")
-                .append(Component.text(playerName))
-                .build();
+        Component customNameComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(Lang.NPC_NAMETAG.toString());
         entity.customName(customNameComponent);
         entity.setCustomNameVisible(true);
 
@@ -63,8 +68,38 @@ public class EntityNPC {
 
         // Remove NPC and player data after combat time.
         // Implement this logic as needed.
-        // removeNPCAfter(entity, combatTime);
         // Could use a repeating task.
+        Double combatTime = plugin.getConfig().getDouble("combat-time", 30d);
+        removeNPCAfter(combatTime, entity, player);
+    }
+
+    private void removeNPCAfter(Double combatTime, Entity npc, Player player) {
+
+        decimalFormat.setRoundingMode(RoundingMode.DOWN);
+        AtomicReference<Double> time = new AtomicReference<>(combatTime);
+        String nametag = PlaceholderAPI.setPlaceholders(player, Lang.NPC_NAMETAG.toString());
+
+        plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, scheduledTask -> {
+
+            if (!isNPCContainedInHashMap(npc)) {
+                scheduledTask.cancel();
+                return;
+            }
+
+            time.set(time.get() - 0.1d);
+            if (time.get() < 0) {
+                plugin.getServer().getRegionScheduler().run(plugin, npc.getLocation(), scheduledSyncTask -> removeNPC(player.getUniqueId()));
+                scheduledTask.cancel();
+                return;
+            }
+
+            // Update custom name for the entity
+            String nametagUpdated = nametag.replace("%despawn_time%", decimalFormat.format(time.get()));
+            Component customNameComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(nametagUpdated);
+            npc.customName(customNameComponent);
+
+        }, 0, 100, TimeUnit.MILLISECONDS);
+
     }
 
     // Get NPC
@@ -80,6 +115,16 @@ public class EntityNPC {
         }
         npcHashMap.remove(playerUUID);
         offlinePlayerHashMap.remove(playerUUID);
+    }
+
+    public void removeUnloadedNPCFromHashMaps(Entity entity) {
+        for (UUID playerUUID : npcHashMap.keySet()) {
+            if (npcHashMap.get(playerUUID).equals(entity)) {
+                System.out.println("REMOVING ENTITY FROM HASHMAP WITH UUID: " + playerUUID.toString());
+                npcHashMap.remove(playerUUID);
+                offlinePlayerHashMap.remove(playerUUID);
+            }
+        }
     }
 
     public void removeNPCFromHashMap(UUID playerUUID) {

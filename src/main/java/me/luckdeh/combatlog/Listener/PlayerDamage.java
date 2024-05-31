@@ -1,8 +1,14 @@
 package me.luckdeh.combatlog.Listener;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.luckdeh.combatlog.CombatLog;
 import me.luckdeh.combatlog.Handler.TimerHandler;
+import me.luckdeh.combatlog.Language.Lang;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -16,7 +22,22 @@ public class PlayerDamage implements Listener {
     }
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player defender) || !(e.getDamager() instanceof Player attacker)) {
+
+        if (!(e.getEntity() instanceof Player defender)) {
+            return;
+        }
+
+        Player attacker;
+
+        if (e.getDamager() instanceof Player) {
+            attacker = (Player) e.getDamager();
+        } else if (e.getDamager() instanceof Projectile projectile) {
+            if(projectile.getShooter() instanceof Player){
+                attacker = (Player) projectile.getShooter();
+            } else {
+                return;
+            }
+        } else {
             return;
         }
 

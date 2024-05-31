@@ -21,9 +21,13 @@ public class PlayerDisconnect implements Listener {
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent e) {
 
-        // If the player is kicked by the server (by admin or by server shutdown), then do not run this event.
-        //Will be made configurable later.
-        if (Bukkit.getServer().isStopping() || e.getReason().equals(PlayerQuitEvent.QuitReason.KICKED)) {
+        //If the server is stopping, then do not run this event.
+        if (plugin.getServer().isStopping()) {
+            return;
+        }
+
+        // If the player is kicked by another plugin then do not run this event.
+        if (e.getReason().equals(PlayerQuitEvent.QuitReason.KICKED) && !plugin.getConfig().getBoolean("combat-log-kick", false)) {
             return;
         }
 

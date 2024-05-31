@@ -1,5 +1,6 @@
 me\luckdeh\combatlog\Listener\PlayerDamage.class
 me\luckdeh\combatlog\Listener\PlayerDeath.class
+me\luckdeh\combatlog\Listener\EntityUnload.class
 me\luckdeh\combatlog\Language\Lang.class
 me\luckdeh\combatlog\Listener\EntityTransform.class
 me\luckdeh\combatlog\utils\EntityNPC.class

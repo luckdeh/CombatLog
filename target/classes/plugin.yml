@@ -1,4 +1,6 @@
 name: CombatLog
 version: '1.0'
+authors: [Luckdeh, Navoei]
 main: me.luckdeh.combatlog.CombatLog
 api-version: '1.20'
+depend: [PlaceholderAPI]
