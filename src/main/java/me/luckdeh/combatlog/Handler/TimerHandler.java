@@ -67,13 +67,13 @@ public class TimerHandler {
 
     //Should only be called in the event of a server shutdown!
     public void clearAllCombatTags() {
-        log.info("[CombatLog] Removing all combat tags...");
+        log.info("Removing all combat tags...");
         if (timer.isEmpty()) {
-            log.info("[CombatLog] No combat tags found. Skipping...");
+            log.info("No combat tags found. Skipping...");
             return;
         }
         timer.clear();
-        log.info("[CombatLog] Combat tags removed successfully!");
+        log.info("Combat tags removed successfully!");
     }
 
     private static TimerHandler instance;

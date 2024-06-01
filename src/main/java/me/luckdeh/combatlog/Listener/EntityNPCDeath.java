@@ -41,12 +41,14 @@ public class EntityNPCDeath implements Listener {
         offlinePlayer.saveData();
 
         //Call a player death event.
+        offlinePlayer.setHealth(0);
         Component deathMessage = Component.text().content(offlinePlayer.getName() + "died.").build();
         PlayerDeathEvent event = new PlayerDeathEvent(offlinePlayer, Arrays.asList(inventory.getContents()), 0, 0, 0, 0, deathMessage, false);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        //Kill the player and clear inventory.
+        //Kill the player, set exp to zero, and clear inventory.
         offlinePlayer.getInventory().clear();
-        offlinePlayer.setHealth(0);
+        offlinePlayer.setTotalExperience(0);
+        offlinePlayer.setLevel(0);
         offlinePlayer.saveData();
 
         //Remove everything from HashMaps.
