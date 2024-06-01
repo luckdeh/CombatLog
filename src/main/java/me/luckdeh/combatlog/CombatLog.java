@@ -52,7 +52,7 @@ public final class CombatLog extends JavaPlugin {
         //Remove all combat tags.
         TimerHandler.getInstance().clearAllCombatTags();
         EntityNPC.getInstance().removeAllNPCData();
-        log.info("[CombatLog] Plugin disabled.");
+        log.info("Plugin disabled.");
     }
 
     public static CombatLog getInstance() {

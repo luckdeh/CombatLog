@@ -11,11 +11,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 public class PlayerDamage implements Listener {
 
     CombatLog plugin;
-
     public PlayerDamage(CombatLog plugin){
         this.plugin = plugin;
     }
-    @EventHandler
+
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
 
         if (!(e.getEntity() instanceof Player defender)) {
@@ -35,6 +35,8 @@ public class PlayerDamage implements Listener {
         } else {
             return;
         }
+
+        if (attacker.hasPermission("combatlog.bypass") || defender.hasPermission("combatlog.bypass")) return;
 
         //Combat Time
         double combatTime = plugin.getConfig().getDouble("combat-time", 30); // Default to 30 if not set

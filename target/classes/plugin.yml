@@ -4,3 +4,6 @@ authors: [Luckdeh, Navoei]
 main: me.luckdeh.combatlog.CombatLog
 api-version: '1.20'
 depend: [PlaceholderAPI]
+permissions:
+  combatlog.bypass:
+    description: Prevents a player from being combat tagged and from tagging others.
