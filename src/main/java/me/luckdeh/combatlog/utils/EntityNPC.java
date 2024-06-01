@@ -52,6 +52,7 @@ public class EntityNPC {
             livingEntity.getEquipment().setDropChance(EquipmentSlot.FEET, 0);
             livingEntity.getEquipment().setDropChance(EquipmentSlot.HAND, 0);
             livingEntity.getEquipment().setDropChance(EquipmentSlot.OFF_HAND, 0);
+            livingEntity.addPotionEffects(player.getActivePotionEffects());
             livingEntity.setCanPickupItems(false);
 
             boolean entityAI = this.plugin.getConfig().getBoolean("npc-ai");

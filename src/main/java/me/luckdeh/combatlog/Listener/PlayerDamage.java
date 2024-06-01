@@ -15,7 +15,7 @@ public class PlayerDamage implements Listener {
     public PlayerDamage(CombatLog plugin){
         this.plugin = plugin;
     }
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
 
         if (!(e.getEntity() instanceof Player defender)) {
@@ -33,6 +33,10 @@ public class PlayerDamage implements Listener {
                 return;
             }
         } else {
+            return;
+        }
+
+        if (attacker.hasPermission("combatlog.bypass") || defender.hasPermission("combatlog.bypass")) {
             return;
         }
 
