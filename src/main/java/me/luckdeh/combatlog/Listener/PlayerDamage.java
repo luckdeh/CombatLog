@@ -36,7 +36,7 @@ public class PlayerDamage implements Listener {
             return;
         }
 
-        if (attacker.hasPermission("combatlog.bypass") || defender.hasPermission("combatlog.bypass")) return;
+        if (attacker.hasPermission("combatlog.bypass") || defender.hasPermission("combatlog.bypass") || attacker.equals(defender)) return;
 
         //Combat Time
         double combatTime = plugin.getConfig().getDouble("combat-time", 30); // Default to 30 if not set
