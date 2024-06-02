@@ -36,7 +36,7 @@ public class PlayerDamage implements Listener {
             return;
         }
 
-        if (attacker.hasPermission("combatlog.bypass") || defender.hasPermission("combatlog.bypass")) {
+        if (attacker.hasPermission("combatlog.bypass") || defender.hasPermission("combatlog.bypass") || attacker.equals(defender)) {
             return;
         }
 
