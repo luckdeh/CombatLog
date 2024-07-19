@@ -5,5 +5,7 @@ main: me.luckdeh.combatlog.CombatLog
 api-version: '1.20'
 depend: [PlaceholderAPI]
 permissions:
-  combatlog.bypass:
+  combatlog.bypass.timer:
     description: Prevents a player from being combat tagged and from tagging others.
+  combatlog.tagcreative:
+    description: Allows a player to tag others while in creative mode.

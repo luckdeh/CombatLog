@@ -5,8 +5,11 @@ import me.luckdeh.combatlog.CombatLog;
 import me.luckdeh.combatlog.Language.Lang;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import java.math.RoundingMode;
@@ -33,7 +36,7 @@ public class EntityNPC {
         UUID playerUUID = player.getUniqueId();
 
         EntityType entityType = entityType();
-        Entity entity = location.getWorld().spawnEntity(location, entityType);
+        Entity entity = location.getWorld().spawnEntity(location, entityType, CreatureSpawnEvent.SpawnReason.CUSTOM);
 
         // Set custom name for the entity
         Component customNameComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(Lang.NPC_NAMETAG.toString());
