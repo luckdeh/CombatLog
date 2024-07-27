@@ -12,6 +12,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class EntityNPCDeath implements Listener {
         Inventory inventory = offlinePlayer.getInventory();
         int offlinePlayerTotalExperience = offlinePlayer.getTotalExperience();
         e.getDrops().clear();
-        e.getDrops().addAll(Arrays.stream(inventory.getContents()).collect(Collectors.toSet()));
+        e.getDrops().addAll(Arrays.asList(inventory.getContents()));
         e.setDroppedExp(0);
         //Load the player data and change it.
         offlinePlayer.loadData();
@@ -42,12 +43,12 @@ public class EntityNPCDeath implements Listener {
 
         //Call a player death event.
         Component deathMessage = Component.text().content(offlinePlayer.getName() + "died.").build();
-        PlayerDeathEvent event = new PlayerDeathEvent(
-                offlinePlayer, e.getDamageSource(), Arrays.asList(inventory.getContents()), 0, deathMessage
-        );
+        PlayerDeathEvent event = new PlayerDeathEvent(offlinePlayer, Arrays.asList(inventory.getContents()), 0, 0, 0, 0, deathMessage, true);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        //Kill the player and clear inventory.
+        //Kill the player, set exp to zero, and clear inventory.
         offlinePlayer.getInventory().clear();
+        offlinePlayer.setTotalExperience(0);
+        offlinePlayer.setLevel(0);
         offlinePlayer.setHealth(0);
         offlinePlayer.saveData();
 

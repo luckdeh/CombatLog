@@ -20,7 +20,6 @@ public class EntityDamagedByPlayer implements Listener {
 
             //Combat Time
             double combatTime = plugin.getConfig().getDouble("combat-time", 30); // Default to 30 if not set
-
             TimerHandler.getInstance().setCombatTimer(player.getUniqueId(), combatTime);
 
             e.setCancelled(false);
